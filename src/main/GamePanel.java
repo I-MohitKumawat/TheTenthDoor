@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import tile.TileManager;
 
 public class GamePanel extends Pane {
 
@@ -13,20 +14,23 @@ public class GamePanel extends Pane {
     final int originalTileSize = 16;
     final int scale = 3;
     public final int tileSize = originalTileSize * scale;
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
     public final int screenWidth = tileSize * maxScreenCol; // 768
     public final int screenHeight = tileSize * maxScreenRow; // 576
 
     private final Canvas canvas;
     private final GraphicsContext gc;
     private final GameInput input = new GameInput(); // event handeler
-    Player player = new Player(this, input);
+    public Player player = new Player(this, input);
 
-    // player position
-    private double playerX = 100;
-    private double playerY = 100;
-    final private double speed = 2;
+    //World settings
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
+
+    TileManager tileM = new TileManager(this);
 
     public GamePanel() {
         canvas = new Canvas(screenWidth, screenHeight);
@@ -63,6 +67,8 @@ public class GamePanel extends Pane {
         // background fill
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, screenWidth, screenHeight);
+
+        tileM.draw(gc);
 
         player.draw(gc);
     }

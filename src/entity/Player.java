@@ -13,9 +13,15 @@ public class Player extends Entity {
     GamePanel gp;
     GameInput gi;
 
+    public final int screenX;
+    public final int screenY;
+
     public Player(GamePanel gp, GameInput gi) {
         this.gp = gp;
         this.gi = gi;
+
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         setDefaultValues();
         getPlayerImage();
@@ -23,26 +29,26 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
 
-        x = 100;
-        y = 100;
+        worldX = gp.tileSize*25;
+        worldY = gp.tileSize*25;
         speed = 4.0;
         direction = "down";
     }
 
     public void getPlayerImage() {
 
-        up1 = new Image(getClass().getResourceAsStream("/player/sprite-1.png"));
-        up2 = new Image(getClass().getResourceAsStream("/player/sprite-1.png"));
-        up3 = new Image(getClass().getResourceAsStream("/player/sprite-1.png"));
-        down1 = new Image(getClass().getResourceAsStream("/player/sprite-1.png"));
-        down2 = new Image(getClass().getResourceAsStream("/player/sprite-1.png"));
-        down3 = new Image(getClass().getResourceAsStream("/player/sprite-1.png"));
-        left1 = new Image(getClass().getResourceAsStream("/player/sprite-1.png"));
-        left2 = new Image(getClass().getResourceAsStream("/player/sprite-1.png"));
-        left3 = new Image(getClass().getResourceAsStream("/player/sprite-1.png"));
-        right1 = new Image(getClass().getResourceAsStream("/player/sprite-1.png"));
-        right2 = new Image(getClass().getResourceAsStream("/player/sprite-1.png"));
-        right3 = new Image(getClass().getResourceAsStream("/player/sprite-1.png"));
+        up1 = new Image(getClass().getResourceAsStream("/player/up.png"));
+        up2 = new Image(getClass().getResourceAsStream("/player/up1.png"));
+        up3 = new Image(getClass().getResourceAsStream("/player/up3.png"));
+        down1 = new Image(getClass().getResourceAsStream("/player/down.png"));
+        down2 = new Image(getClass().getResourceAsStream("/player/down1.png"));
+        down3 = new Image(getClass().getResourceAsStream("/player/down3.png"));
+        left1 = new Image(getClass().getResourceAsStream("/player/left.png"));
+        left2 = new Image(getClass().getResourceAsStream("/player/left1.png"));
+        left3 = new Image(getClass().getResourceAsStream("/player/left3.png"));
+        right1 = new Image(getClass().getResourceAsStream("/player/right.png"));
+        right2 = new Image(getClass().getResourceAsStream("/player/right1.png"));
+        right3 = new Image(getClass().getResourceAsStream("/player/right3.png"));
 
     }
 
@@ -65,16 +71,16 @@ public class Player extends Entity {
 
         double length = Math.sqrt(dx * dx + dy * dy);
         if (length != 0) {
-            dx /= length;
-            dy /= length;
+            dx /= (length * 0.6); //0.6 componsation for slower perception
+            dy /= (length * 0.6);
         }
 
-        x += dx * speed;
-        y += dy * speed;
+        worldX += dx * speed;
+        worldY += dy * speed;
 
         // screen boundaries
-        x = Math.max(0, Math.min(x, gp.screenWidth - gp.tileSize));
-        y = Math.max(0, Math.min(y, gp.screenHeight - gp.tileSize));
+//        worldX = Math.max(0, Math.min(worldX, gp.screenWidth - gp.tileSize));
+//        worldY = Math.max(0, Math.min(worldY, gp.screenHeight - gp.tileSize));
     }
 
     public void draw(GraphicsContext gc) {
@@ -94,7 +100,7 @@ public class Player extends Entity {
             default -> up1;
         };
 
-        gc.drawImage(image, x, y, gp.tileSize, gp.tileSize);
+        gc.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize);
 
     }
 }
