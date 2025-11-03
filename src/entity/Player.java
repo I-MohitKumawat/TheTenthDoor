@@ -48,15 +48,19 @@ public class Player extends Entity {
         up1 = new Image(getClass().getResourceAsStream("/player/up1.png"));
         up2 = new Image(getClass().getResourceAsStream("/player/up2.png"));
         up3 = new Image(getClass().getResourceAsStream("/player/up3.png"));
+        up4 = new Image(getClass().getResourceAsStream("/player/up4.png"));
         down1 = new Image(getClass().getResourceAsStream("/player/down1.png"));
         down2 = new Image(getClass().getResourceAsStream("/player/down2.png"));
         down3 = new Image(getClass().getResourceAsStream("/player/down3.png"));
+        down4 = new Image(getClass().getResourceAsStream("/player/down4.png"));
         left1 = new Image(getClass().getResourceAsStream("/player/left1.png"));
         left2 = new Image(getClass().getResourceAsStream("/player/left2.png"));
         left3 = new Image(getClass().getResourceAsStream("/player/left3.png"));
+        left4 = new Image(getClass().getResourceAsStream("/player/left4.png"));
         right1 = new Image(getClass().getResourceAsStream("/player/right1.png"));
         right2 = new Image(getClass().getResourceAsStream("/player/right2.png"));
         right3 = new Image(getClass().getResourceAsStream("/player/right3.png"));
+        right4 = new Image(getClass().getResourceAsStream("/player/right4.png"));
 
     }
 
@@ -105,7 +109,7 @@ public class Player extends Entity {
             // animation
             spriteCounter++;
             if (spriteCounter > 12) {
-                spriteNum = (spriteNum == 1) ? 2 : 1;
+                spriteNum = (spriteNum == 1) ? 2: (spriteNum ==2) ? 3 : (spriteNum ==3)?4:1;
                 spriteCounter = 0;
             }
         }
@@ -117,8 +121,8 @@ public class Player extends Entity {
     public void pickUpObject(int i){
 
         if(i != 999){
-            String objecName = gp.obj[i].name;
-            switch (objecName){
+            String objectName = gp.obj[i].name;
+            switch (objectName){
                 case"key":
                     hasKey++;
                     gp.obj[i] = null;
@@ -128,6 +132,10 @@ public class Player extends Entity {
                         gp.obj[i] = null;
                         hasKey--;
                     }
+                    break;
+                case"Boots":
+                    speed +=1;
+                    gp.obj[i] = null;
                     break;
             }
         }
@@ -140,13 +148,13 @@ public class Player extends Entity {
 
         Image image = switch (direction) {
             case "up" -> (spriteNum == 1) ? up1 :
-                    (spriteNum == 2) ? up2 : up3;
+                    (spriteNum == 2) ? up2 : (spriteNum == 3) ? up3 : up4;
             case "down" -> (spriteNum == 1) ? down1 :
-                    (spriteNum == 2) ? down2 : down3;
+                    (spriteNum == 2) ? down2 : (spriteNum == 3) ? down3 : down4;
             case "left" -> (spriteNum == 1) ? left1 :
-                    (spriteNum == 2) ? left2 : left3;
+                    (spriteNum == 2) ? left2 : (spriteNum == 3) ? left3 : left4;
             case "right" -> (spriteNum == 1) ? right1 :
-                    (spriteNum == 2) ? right2 : right3;
+                    (spriteNum == 2) ? right2 : (spriteNum == 3) ? right3 : right4;
             default -> up1;
         };
 
