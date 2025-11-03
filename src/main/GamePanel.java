@@ -31,6 +31,7 @@ public class GamePanel extends Pane {
     public final int worldHeight = tileSize * maxWorldRow;
 
     TileManager tileM = new TileManager(this);
+    public CollisionChecker cChecker = new CollisionChecker(this);
 
     public GamePanel() {
         canvas = new Canvas(screenWidth, screenHeight);

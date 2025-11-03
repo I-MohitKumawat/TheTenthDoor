@@ -6,22 +6,27 @@ import main.GamePanel;
 
 import javafx.scene.image.Image;
 
-import java.io.IOException;
+import java.awt.*;
 
 public class Player extends Entity {
 
-    GamePanel gp;
-    GameInput gi;
-
     public final int screenX;
     public final int screenY;
+    GamePanel gp;
+    GameInput gi;
 
     public Player(GamePanel gp, GameInput gi) {
         this.gp = gp;
         this.gi = gi;
 
-        screenX = gp.screenWidth/2 - (gp.tileSize/2);
-        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
+        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
+
+        solidArea = new Rectangle();
+        solidArea.x = 9;
+        solidArea.y = 15;
+        solidArea.width = 32;
+        solidArea.height = 32;
 
         setDefaultValues();
         getPlayerImage();
@@ -29,9 +34,9 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
 
-        worldX = gp.tileSize*25;
-        worldY = gp.tileSize*25;
-        speed = 4.0;
+        worldX = gp.tileSize * 25;
+        worldY = gp.tileSize * 25;
+        speed = 4;
         direction = "down";
     }
 
@@ -53,30 +58,50 @@ public class Player extends Entity {
     }
 
     public void update() {
-        double dx = 0, dy = 0;
 
-        if (gi.isUp())    { direction = "up";    dy -= 1; }
-        if (gi.isDown())  { direction = "down";  dy += 1; }
-        if (gi.isLeft())  { direction = "left";  dx -= 1; }
-        if (gi.isRight()) { direction = "right"; dx += 1; }
+        if (gi.isUp() || gi.isDown() || gi.isLeft() || gi.isRight()) {
+            if (gi.isUp()) {
+                direction = "up";
+            }
+            if (gi.isDown()) {
+                direction = "down";
+            }
+            if (gi.isLeft()) {
+                direction = "left";
+            }
+            if (gi.isRight()) {
+                direction = "right";
+            }
 
-        // animation
-        if (dx != 0 || dy != 0) {
+            // CHECK TILE COLLISION
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+
+            // IF COLLISION IS FALSE, PLAYER CAN MOVE
+            if (!collisionOn) {
+                switch (direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+            }
+
+            // animation
             spriteCounter++;
-            if (spriteCounter > 10) {
+            if (spriteCounter > 12) {
                 spriteNum = (spriteNum == 1) ? 2 : 1;
                 spriteCounter = 0;
             }
         }
-
-        double length = Math.sqrt(dx * dx + dy * dy);
-        if (length != 0) {
-            dx /= (length * 0.6); //0.6 componsation for slower perception
-            dy /= (length * 0.6);
-        }
-
-        worldX += dx * speed;
-        worldY += dy * speed;
 
         // screen boundaries
 //        worldX = Math.max(0, Math.min(worldX, gp.screenWidth - gp.tileSize));
