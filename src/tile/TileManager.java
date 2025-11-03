@@ -19,7 +19,7 @@ public class TileManager {
         tile = new Tile[10];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
-        loadMap("/maps/world_test.txt");
+        loadMap("/maps/level1.txt");
     }
 
     public void getTileImage() {
@@ -32,8 +32,25 @@ public class TileManager {
         tile[1].collision = true;
 
         tile[2] = new Tile();
-        tile[2].image = new Image(getClass().getResourceAsStream("/tiles/water.png"));
+        tile[2].image = new Image(getClass().getResourceAsStream("/tiles/tree.png"));
         tile[2].collision = true;
+
+        tile[3] = new Tile();
+        tile[3].image = new Image(getClass().getResourceAsStream("/tiles/rubble3.png"));
+
+        tile[4] = new Tile();
+        tile[4].image = new Image(getClass().getResourceAsStream("/tiles/sand.png"));
+
+        tile[5] = new Tile();
+        tile[5].image = new Image(getClass().getResourceAsStream("/tiles/mud.png"));
+
+        tile[7] = new Tile();
+        tile[7].image = new Image(getClass().getResourceAsStream("/tiles/chest.png"));
+        tile[7].collision = true;
+
+        tile[8] = new Tile();
+        tile[8].image = new Image(getClass().getResourceAsStream("/tiles/water.png"));
+        tile[8].collision = true;
     }
 
     public void loadMap(String filePath) {
