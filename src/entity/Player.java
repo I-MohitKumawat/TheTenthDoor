@@ -14,6 +14,7 @@ public class Player extends Entity {
     public final int screenY;
     GamePanel gp;
     GameInput gi;
+    int hasKey = 0;
 
     public Player(GamePanel gp, GameInput gi) {
         this.gp = gp;
@@ -25,6 +26,8 @@ public class Player extends Entity {
         solidArea = new Rectangle();
         solidArea.x = 9;
         solidArea.y = 15;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 32;
 
@@ -42,17 +45,17 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
 
-        up1 = new Image(getClass().getResourceAsStream("/player/up.png"));
-        up2 = new Image(getClass().getResourceAsStream("/player/up1.png"));
+        up1 = new Image(getClass().getResourceAsStream("/player/up1.png"));
+        up2 = new Image(getClass().getResourceAsStream("/player/up2.png"));
         up3 = new Image(getClass().getResourceAsStream("/player/up3.png"));
-        down1 = new Image(getClass().getResourceAsStream("/player/down.png"));
-        down2 = new Image(getClass().getResourceAsStream("/player/down1.png"));
+        down1 = new Image(getClass().getResourceAsStream("/player/down1.png"));
+        down2 = new Image(getClass().getResourceAsStream("/player/down2.png"));
         down3 = new Image(getClass().getResourceAsStream("/player/down3.png"));
-        left1 = new Image(getClass().getResourceAsStream("/player/left.png"));
-        left2 = new Image(getClass().getResourceAsStream("/player/left1.png"));
+        left1 = new Image(getClass().getResourceAsStream("/player/left1.png"));
+        left2 = new Image(getClass().getResourceAsStream("/player/left2.png"));
         left3 = new Image(getClass().getResourceAsStream("/player/left3.png"));
-        right1 = new Image(getClass().getResourceAsStream("/player/right.png"));
-        right2 = new Image(getClass().getResourceAsStream("/player/right1.png"));
+        right1 = new Image(getClass().getResourceAsStream("/player/right1.png"));
+        right2 = new Image(getClass().getResourceAsStream("/player/right2.png"));
         right3 = new Image(getClass().getResourceAsStream("/player/right3.png"));
 
     }
@@ -76,6 +79,10 @@ public class Player extends Entity {
             // CHECK TILE COLLISION
             collisionOn = false;
             gp.cChecker.checkTile(this);
+
+            //  CHECK OBJECT COLLISION
+            int objIndex =gp.cChecker.checkObject(this, true);
+            pickUpObject(objIndex);
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (!collisionOn) {
@@ -106,6 +113,24 @@ public class Player extends Entity {
         // screen boundaries
 //        worldX = Math.max(0, Math.min(worldX, gp.screenWidth - gp.tileSize));
 //        worldY = Math.max(0, Math.min(worldY, gp.screenHeight - gp.tileSize));
+    }
+    public void pickUpObject(int i){
+
+        if(i != 999){
+            String objecName = gp.obj[i].name;
+            switch (objecName){
+                case"key":
+                    hasKey++;
+                    gp.obj[i] = null;
+                    break;
+                case"Door":
+                    if(hasKey > 0){
+                        gp.obj[i] = null;
+                        hasKey--;
+                    }
+                    break;
+            }
+        }
     }
 
     public void draw(GraphicsContext gc) {

@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import object.SuperObject;
 import tile.TileManager;
 
 public class GamePanel extends Pane {
@@ -32,6 +33,8 @@ public class GamePanel extends Pane {
 
     TileManager tileM = new TileManager(this);
     public CollisionChecker cChecker = new CollisionChecker(this);
+    public SuperObject obj[] = new SuperObject[10];
+    public AssetSetter aSetter = new AssetSetter(this);
 
     public GamePanel() {
         canvas = new Canvas(screenWidth, screenHeight);
@@ -44,6 +47,10 @@ public class GamePanel extends Pane {
         });
 
         startGameLoop();
+    }
+
+    public void setUpGame(){
+        aSetter.setObject();
     }
 
     private void startGameLoop() {
@@ -69,7 +76,15 @@ public class GamePanel extends Pane {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, screenWidth, screenHeight);
 
+        // TILE
         tileM.draw(gc);
+
+        //OBJECT
+        for(int i = 0; i< obj.length; i++){
+            if(obj[i] != null){
+                obj[i].draw(gc, this);
+            }
+        }
 
         player.draw(gc);
     }

@@ -13,6 +13,8 @@ public class Main extends Application {
         stage.setTitle("The Tenth Door");
         stage.setScene(scene);
         stage.show();
+
+        gamePanel.setUpGame();
     }
 
 
