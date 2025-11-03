@@ -36,13 +36,19 @@ public class TileManager {
         tile[2].collision = true;
 
         tile[3] = new Tile();
-        tile[3].image = new Image(getClass().getResourceAsStream("/tiles/rubble3.png"));
+        tile[3].image = new Image(getClass().getResourceAsStream("/tiles/rubble2.png"));
 
         tile[4] = new Tile();
-        tile[4].image = new Image(getClass().getResourceAsStream("/tiles/sand.png"));
+        tile[4].image = new Image(getClass().getResourceAsStream("/tiles/rubble1.png"));
 
         tile[5] = new Tile();
         tile[5].image = new Image(getClass().getResourceAsStream("/tiles/mud.png"));
+
+        tile[6] = new Tile();
+        tile[6].image = new Image(getClass().getResourceAsStream("/tiles/door.png"));
+        tile[6].collision=true;
+
+
 
         tile[7] = new Tile();
         tile[7].image = new Image(getClass().getResourceAsStream("/tiles/chest.png"));
@@ -51,6 +57,9 @@ public class TileManager {
         tile[8] = new Tile();
         tile[8].image = new Image(getClass().getResourceAsStream("/tiles/water.png"));
         tile[8].collision = true;
+
+        tile[9] = new Tile();
+        tile[9].image = new Image(getClass().getResourceAsStream("/tiles/sand.png"));
     }
 
     public void loadMap(String filePath) {
