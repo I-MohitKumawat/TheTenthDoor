@@ -23,17 +23,20 @@ public class GamePanel extends Pane {
     private final Canvas canvas;
     private final GraphicsContext gc;
     private final GameInput input = new GameInput(); // event handeler
-    public Player player = new Player(this, input);
 
     //World settings
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
-    public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight = tileSize * maxWorldRow;
 
-    TileManager tileM = new TileManager(this);
-    public CollisionChecker cChecker = new CollisionChecker(this);
+    // Player and object
+    public Player player = new Player(this, input);
     public SuperObject obj[] = new SuperObject[10];
+
+    //System
+    TileManager tileM = new TileManager(this);
+    Sound music = new Sound();
+    Sound se = new Sound();
+    public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
 
     public GamePanel() {
@@ -51,6 +54,7 @@ public class GamePanel extends Pane {
 
     public void setUpGame(){
         aSetter.setObject();
+        playMusic(0);
     }
 
     private void startGameLoop() {
@@ -87,5 +91,17 @@ public class GamePanel extends Pane {
         }
 
         player.draw(gc);
+    }
+    public void playMusic(int i){
+        music.setFile(i);
+        music.play();
+        music.loop();
+    }
+    public void stopMusic(){
+        music.stop();
+    }
+    public void playSoundEffect(int i){
+        se.setFile(i);
+        se.play();
     }
 }

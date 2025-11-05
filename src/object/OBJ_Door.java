@@ -7,7 +7,7 @@ public class OBJ_Door extends SuperObject {
 
     public OBJ_Door() {
 
-        name = "door";
+        name = "Door";
         image = new Image(getClass().getResourceAsStream("/objects/door.png"));
         collision = true;
     }

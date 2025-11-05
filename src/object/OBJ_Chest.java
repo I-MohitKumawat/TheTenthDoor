@@ -7,7 +7,7 @@ public class OBJ_Chest extends SuperObject{
 
     public OBJ_Chest(){
 
-        name = "chest";
+        name = "Chest";
         image = new Image(getClass().getResourceAsStream("/objects/chest.png"));
     }
 }

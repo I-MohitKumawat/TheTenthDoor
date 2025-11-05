@@ -123,17 +123,20 @@ public class Player extends Entity {
         if(i != 999){
             String objectName = gp.obj[i].name;
             switch (objectName){
-                case"key":
+                case"Key":
+                    gp.playSoundEffect(3);
                     hasKey++;
                     gp.obj[i] = null;
                     break;
                 case"Door":
+                    gp.playSoundEffect(2);
                     if(hasKey > 0){
                         gp.obj[i] = null;
                         hasKey--;
                     }
                     break;
                 case"Boots":
+                    gp.playSoundEffect(2);
                     speed +=1;
                     gp.obj[i] = null;
                     break;
