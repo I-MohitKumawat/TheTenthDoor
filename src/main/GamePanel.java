@@ -22,7 +22,7 @@ public class GamePanel extends Pane {
 
     private final Canvas canvas;
     private final GraphicsContext gc;
-    private final GameInput input = new GameInput(); // event handeler
+    private final GameInput input = new GameInput(); // event handler
 
     //World settings
     public final int maxWorldCol = 50;
@@ -33,11 +33,13 @@ public class GamePanel extends Pane {
     public SuperObject obj[] = new SuperObject[10];
 
     //System
+    private AnimationTimer gameLoop;
     TileManager tileM = new TileManager(this);
     Sound music = new Sound();
     Sound se = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
+    public UI ui = new UI(this);
 
     public GamePanel() {
         canvas = new Canvas(screenWidth, screenHeight);
@@ -58,7 +60,7 @@ public class GamePanel extends Pane {
     }
 
     private void startGameLoop() {
-        AnimationTimer gameLoop = new AnimationTimer() {
+        gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 update();
@@ -67,6 +69,11 @@ public class GamePanel extends Pane {
         };
         gameLoop.start();
     }
+
+    public void stopGame() {
+        gameLoop.stop();
+    }
+
 
     // updates player position
     private void update() {
@@ -91,6 +98,9 @@ public class GamePanel extends Pane {
         }
 
         player.draw(gc);
+
+        // UI
+        ui.draw(gc);
     }
     public void playMusic(int i){
         music.setFile(i);

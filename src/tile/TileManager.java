@@ -36,7 +36,7 @@ public class TileManager {
         tile[2].collision = true;
 
         tile[3] = new Tile();
-        tile[3].image = new Image(getClass().getResourceAsStream("/tiles/rubble1.png"));
+        tile[3].image = new Image(getClass().getResourceAsStream("/tiles/bg_tile3.png"));
 
         tile[4] = new Tile();
         tile[4].image = new Image(getClass().getResourceAsStream("/tiles/rubble2.png"));

@@ -1,47 +1,39 @@
 from PIL import Image
+import os
 
-# Define your color-to-number mapping
 COLOR_MAP = {
-    (49, 255, 0): 0,  # lime -> grass
-    (0, 0, 0): 1,     # black -> wall
-    (24, 124, 0): 2,  # green -> tree
-    (251, 0, 255): 3, # grey ->rubble2 
-    (136,0,138):4,    # rubble1
-    (135, 89, 0): 5,  # brown -> mud
-     (0,131,255):6,   #door
-    (240, 11, 0): 7,  # chest
-    (0, 80, 124): 8,  # water 
-    (240,255,0):9,    #sand
+    (34, 177, 76): 0,     # grass
+    (40, 40, 40): 1,      # wall 
+    (0, 100, 0): 2,       # tree
+    (120, 120, 120): 3,   # rubble1
+    (180, 180, 180): 4,   # rubble2
+    (139, 69, 19): 5,     # mud
+    (200, 140, 20): 6,    # door
+    (160, 82, 45): 7,     # chest
+    (0, 120, 255): 8,     # water
+    (240, 230, 140): 9,   # sand
 }
 
+
 def color_to_value(rgb):
-    # Try exact match
     if rgb in COLOR_MAP:
         return COLOR_MAP[rgb]
-    # If not exact, find closest color by Euclidean distance
-    closest = min(COLOR_MAP.keys(), key=lambda c: sum((a-b)**2 for a, b in zip(c, rgb)))
-    return COLOR_MAP[closest]
+    return COLOR_MAP[min(COLOR_MAP.keys(), key=lambda c: sum((a-b)**2 for a, b in zip(c, rgb)))]
 
 def image_to_array(image_path):
     img = Image.open(image_path).convert("RGB")
-    width, height = img.size
-    result = []
+    w, h = img.size
+    return [[color_to_value(img.getpixel((x, y))) for x in range(w)] for y in range(h)]
 
-    for y in range(height):
-        row = []
-        for x in range(width):
-            rgb = img.getpixel((x, y))
-            row.append(color_to_value(rgb))
-        result.append(row)
+def save_map(array, output_path):
+    with open(output_path, "w") as f:
+        for row in array:
+            f.write(" ".join(map(str, row)) + "\n")
 
-    return result
+# === usage ===
+image_path = r"C:\dev\TheTenthDoor\src\res\maps\mapImage\level2.png"
+array = image_to_array(image_path)
+output_file = os.path.splitext(image_path)[0] + ".txt"
+save_map(array, output_file)
 
-
-def print_map(array):
-    for row in array:
-        print(" ".join(map(str, row)))
-
-
-# === Example usage ===
-map_array = image_to_array("level1.png")  # replace with your file
-print_map(map_array)
+print(f"exported to {output_file}")

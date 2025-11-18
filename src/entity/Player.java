@@ -14,7 +14,8 @@ public class Player extends Entity {
     public final int screenY;
     GamePanel gp;
     GameInput gi;
-    int hasKey = 0;
+    public int hasKey = 0;
+    int standCounter = 0;
 
     public Player(GamePanel gp, GameInput gi) {
         this.gp = gp;
@@ -37,7 +38,7 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
 
-        worldX = gp.tileSize * 11;
+        worldX = gp.tileSize * 23;
         worldY = gp.tileSize * 42;
         speed = 4;
         direction = "down";
@@ -112,6 +113,13 @@ public class Player extends Entity {
                 spriteNum = (spriteNum == 1) ? 2: (spriteNum ==2) ? 3 : (spriteNum ==3)?4:1;
                 spriteCounter = 0;
             }
+        }else{
+            standCounter++;
+            if(standCounter == 20){
+                spriteNum = 1;
+                standCounter = 0;
+
+            }
         }
 
         // screen boundaries
@@ -123,22 +131,37 @@ public class Player extends Entity {
         if(i != 999){
             String objectName = gp.obj[i].name;
             switch (objectName){
-                case"Key":
+                case"RealChest":
                     gp.playSoundEffect(3);
                     hasKey++;
                     gp.obj[i] = null;
+                    gp.ui.showMessage("You Picked a KEY");
                     break;
-                case"Door":
+
+                case"FakeChest":
                     gp.playSoundEffect(2);
+                    gp.obj[i] = null;
+                    gp.ui.showMessage("You got Fooled by FakeChest");
+                    break;
+
+                case"Door":
+                    gp.playSoundEffect(1);
                     if(hasKey > 0){
                         gp.obj[i] = null;
                         hasKey--;
+                        gp.ui.showMessage("Door Unlocked");
+                        gp.ui.gameFinished = true;
+                        gp.stopMusic();
+//                        gp.playSoundEffect(6);
+                    }else{
+                        gp.ui.showMessage("You need a key");
                     }
                     break;
                 case"Boots":
                     gp.playSoundEffect(2);
                     speed +=1;
                     gp.obj[i] = null;
+                    gp.ui.showMessage("Speeeeeeed!!!");
                     break;
             }
         }

@@ -10,10 +10,13 @@ public class Sound {
     Clip clip;
     URL[] soundURL = new URL[30];
     public Sound(){
-        soundURL[0] = getClass().getResource("/sound/wav/bgm.wav");
-        soundURL[1] = getClass().getResource("/sound/wav/close_chest.wav");
-        soundURL[2] = getClass().getResource("/sound/wav/open_door.wav");
-        soundURL[3] = getClass().getResource("/sound/wav/zombie.wav");
+        soundURL[0] = getClass().getResource("/sound/wav/bg_sound.wav");
+        soundURL[1] = getClass().getResource("/sound/wav/door_open.wav");
+        soundURL[2] = getClass().getResource("/sound/wav/fake_chest.wav");
+        soundURL[3] = getClass().getResource("/sound/wav/real_chest.wav");
+        soundURL[4] = getClass().getResource("/sound/wav/item_pick.wav");
+        soundURL[5] = getClass().getResource("/sound/wav/door_locked.wav");
+        soundURL[6] = getClass().getResource("/sound/wav/zombie.wav");
     }
 
     public void setFile(int i){
